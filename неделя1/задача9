@@ -1,0 +1,14 @@
+#include <iostream>
+#include <algorithm>
+#include <math.h>
+ 
+using namespace std;
+ 
+int main() {
+    int h, m, c, h1, m1, c1;
+    cin >> h >> m >> c >> h1 >> m1 >> c1;
+    int k = h * 3600 + m * 60 + c;
+    int k1 = h1 * 3600 + m1 * 60 + c1;
+    cout << k1 - k << endl;
+    return 0;
+}
