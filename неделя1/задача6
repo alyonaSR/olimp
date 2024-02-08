@@ -1,0 +1,13 @@
+#include <iostream>
+#include <algorithm>
+#include <math.h>
+ 
+using namespace std;
+ 
+int main() {
+    int c;
+    cin >> c;
+    int h = (c / 60) % 24;
+    cout << h << " " << c % 60 << endl;
+    return 0;
+}
