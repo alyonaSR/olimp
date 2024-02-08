@@ -1,0 +1,13 @@
+#include <iostream>
+#include <algorithm>
+#include <math.h>
+ 
+using namespace std;
+ 
+int main() {
+    int v, t;
+    cin >> v >> t;
+    int s = v * t;
+    cout << (s % 109 + 109) % 109 << endl; 
+    return 0;
+}
