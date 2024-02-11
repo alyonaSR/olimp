@@ -1,0 +1,26 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main() {
+    int n;
+    long long cnt = 0;
+    cin >> n;
+    vector <int> a;
+    for(int i = 0; i < n; i++){
+        int b;
+        cin >> b;
+        a.push_back(b);
+        a[i]--;
+        if (a[i] == i)
+            cnt++;
+    }
+    long long ans = cnt * (cnt - 1) / 2;
+    for(int i = 0; i < n; i++){
+        if (a[i] > i && a[a[i]] == i)
+            ans++;
+    }
+    cout << ans << endl;
+    return 0;
+}
