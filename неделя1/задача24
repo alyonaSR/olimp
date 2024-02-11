@@ -1,0 +1,25 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main() {
+    long long n, k;
+    cin >> n >> k;
+    
+    string result = to_string(n);
+    
+    for (int i = 0; i < k; i++) {
+        if (n % 200 == 0) {
+            n /= 200;
+            result = to_string(n);
+        } else {
+            result += "200";
+            n = stol(result);
+        }
+    }
+    
+    cout << result << endl;
+    
+    return 0;
+}
