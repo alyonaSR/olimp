@@ -1,31 +1,28 @@
 #include <iostream>
 #include <vector>
-#include <set>
+#include <map>
 
 using namespace std;
 
+using ll = long long;
+
+int a[300005];
+
 int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    
     int n;
     cin >> n;
-    long long ans = n * (n - 1) / 2;
-    vector <int> vec;
+    ll ans = (ll)n * (n - 1) / 2;
+    map<ll, ll> cnt;
     for(int i = 0; i < n; i++){
-        int a;
-        cin >> a;
-        vec.push_back(a);
+        cin >> a[i];
+        cnt[a[i]]++;
     }
-    sort(vec.begin(), vec.end());
-    int s = 1;
-    for(int i = 0; i < n - 1; i++){
-        if(vec[i] == vec[i + 1]) {
-            s++;
-        }
-        else{
-            ans -= s * (s - 1) / 2;
-            s = 1;
-        }
+    for (auto [x, y] : cnt) {
+        ans -= y * (y - 1) / 2;
     }
-    ans -= s * (s - 1) / 2;
-    cout << ans << endl;
+    cout << ans << "\n";
     return 0;
 }
