@@ -1,0 +1,27 @@
+#include <iostream>
+#include <iomanip>
+#include <vector>
+
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    
+    ll w, h, n;
+    cin >> w >> h >> n;
+    
+    unsigned long long l = 0, r = 1e18;
+    while(r > l + 1){
+        unsigned long long mid = (l + r) / 2;
+        unsigned long long ss = (mid / w) * (mid / h);
+        if (ss < n){
+            l = mid;
+        }
+        else{
+            r = mid;
+        }
+    }
+    cout << r << endl;
+    return 0;
+}
