@@ -1,0 +1,64 @@
+#include <iostream>
+#include <iomanip>
+#include <vector>
+
+using namespace std;
+
+using ll = long long;
+
+int bin(vector <ll> &a, int n, int x){
+    int l = 0, r = n;
+    while(r > l + 1){
+        int mid = (l + r) / 2;
+        if (a[mid] > x){
+            r = mid;
+        }
+        else{
+            l = mid;
+        }
+    }
+    return l;
+}
+
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    
+    int t;
+    cin >> t;
+    
+    for (int j = 0; j < t; j++) {
+            int n, q;
+            cin >> n >> q;
+            vector<int> a(n);
+            vector <ll> pref;
+            vector <ll> pref_sum;
+            for (int i = 0; i < n; i++) {
+                cin >> a[i];
+            }
+        pref.push_back(a[0]);
+        pref_sum.push_back(a[0]);
+        for(int i = 1; i < n; i++){
+            if (a[i - 1] >= a[i]){
+                pref.push_back(pref[i - 1]);
+            }
+            else{
+                pref.push_back(a[i]);
+            }
+            pref_sum.push_back(pref_sum[i - 1] + a[i]);
+        }
+            for (int i = 0; i < q; i++) {
+                int x;
+                cin >> x;
+                if (x == 0){
+                    cout << "0" << " ";
+                }
+                else{
+                    cout << pref_sum[bin(pref, n, x)] << " ";
+                }
+            }
+        cout << endl;
+        }
+        return 0;
+    }
+
