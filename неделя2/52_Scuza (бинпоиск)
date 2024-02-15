@@ -17,6 +17,8 @@ int bin(vector <ll> &a, int n, int x){
             l = mid;
         }
     }
+    if (a[l] > x)
+        return -1;
     return l;
 }
 
@@ -28,14 +30,14 @@ int main() {
     cin >> t;
     
     for (int j = 0; j < t; j++) {
-            int n, q;
-            cin >> n >> q;
-            vector<int> a(n);
-            vector <ll> pref;
-            vector <ll> pref_sum;
-            for (int i = 0; i < n; i++) {
-                cin >> a[i];
-            }
+        int n, q;
+        cin >> n >> q;
+        vector<int> a(n);
+        vector <ll> pref;
+        vector <ll> pref_sum;
+        for (int i = 0; i < n; i++) {
+            cin >> a[i];
+        }
         pref.push_back(a[0]);
         pref_sum.push_back(a[0]);
         for(int i = 1; i < n; i++){
@@ -43,22 +45,24 @@ int main() {
                 pref.push_back(pref[i - 1]);
             }
             else{
-                pref.push_back(a[i]);
+                if (a[i] > pref[i - 1])
+                    pref.push_back(a[i]);
+                else
+                    pref.push_back(pref[i - 1]);
             }
             pref_sum.push_back(pref_sum[i - 1] + a[i]);
         }
-            for (int i = 0; i < q; i++) {
-                int x;
-                cin >> x;
-                if (x == 0){
-                    cout << "0" << " ";
-                }
-                else{
-                    cout << pref_sum[bin(pref, n, x)] << " ";
-                }
-            }
-        cout << endl;
+        for (int i = 0; i < q; i++) {
+            int x;
+            cin >> x;
+            ll w = bin(pref, n, x);
+            if (w == -1)
+                cout << "0" << " ";
+            else
+                cout << pref_sum[w] << " ";
         }
-        return 0;
+        cout << endl;
     }
-
+    
+    return 0;
+}
