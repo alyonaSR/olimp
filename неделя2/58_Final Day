@@ -1,0 +1,35 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
+
+using namespace std;
+
+int a[200005];
+
+bool b[200005];
+
+int main() {
+    int n, k;
+    cin >> n >> k;
+    vector <pair<int, int>>  ss;
+    for(int i = 0; i < n; i++){
+        int x, b, c;
+        cin >> x >> b >> c;
+        ss.push_back(make_pair(x + b + c, i));
+        a[i] = x + b + c;
+    }
+    sort(ss.begin(), ss.end());
+    int xx = ss[n - k].first;
+    for(int i = 0; i < n; i++){
+        if (ss[i].first + 300 >= xx) b[ss[i].second] = true;
+        else b[ss[i].second] = false;
+    }
+    
+    for(int i = 0; i < n; i++){
+        if (b[i]) cout << "Yes" << "\n";
+        else cout << "No" << "\n";
+    }
+    return 0;
+}
+
