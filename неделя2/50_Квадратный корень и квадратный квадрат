@@ -1,0 +1,31 @@
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+
+using namespace std;
+
+long double bin(long double c) {
+    long double l = 0.0, r = c;
+    while (r > l + 1e-7) {
+        long double mid = (l + r) / 2;
+        long double ans = mid * mid + sqrt(mid);
+        if (ans > c) {
+            r = mid;
+        } else {
+            l = mid;
+        }
+    }
+    return l;
+}
+
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    
+    long double c;
+    cin >> c;
+
+    cout << fixed << setprecision(6) << bin(c) << '\n';
+
+    return 0;
+}
