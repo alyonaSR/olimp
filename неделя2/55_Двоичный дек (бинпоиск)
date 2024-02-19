@@ -1,0 +1,63 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int bin(vector <int> a, int n, int s){
+    int ans = -1;
+    int l = 0, r = n;
+    for(int i = 0; i < n; i++){
+        l = i;
+        r = n + 1;
+        while(r > l + 1){
+            int mid = (l + r) / 2;
+            int res = -1;
+            if (i == 0) res = a[mid];
+            else res = a[mid] - a[i - 1];
+            if (res <= s){
+                l = mid;
+                if (res == s){
+                    if (ans == -1) ans = i + (n - mid - 1);
+                    else ans = min(ans, i + (n - mid - 1));
+                }
+            }
+            else {
+                r = mid;
+            }
+            
+        }
+    }
+    if (ans == -1) return -1;
+    return l;
+}
+
+
+
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    
+    int t;
+    cin >> t;
+    for(int q = 0; q < t; q++){
+        int n, s;
+        cin >> n >> s;
+        vector <int> a;
+        for(int i = 0; i < n; i++){
+            int x;
+            cin >> x;
+            a.push_back(x);
+        }
+        vector <int> pref;
+        pref.push_back(a[0]);
+        for(int i = 1; i < n; i++){
+            pref.push_back(pref[i - 1] + a[i]);
+        }
+        cout << bin(pref, n, s) << '\n';
+    }
+    
+    
+    
+    
+    return 0;
+}
