@@ -1,0 +1,69 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void sort_end(int arr[], int l, int r){
+    int i = l, mid = (l + r) / 2, j = mid + 1, k = 0, ans[100006];
+    
+    while (i <= mid && j <= r){
+        if (arr[i] <= arr[j]){
+            ans[k] = arr[i];
+            i++;
+        }
+        else{
+            ans[k] = arr[j];
+            j++;
+        }
+        k++;
+    }
+    while (i <= mid){
+        ans[k] = arr[i];
+        k++;
+        i++;
+    }
+    
+    while (j <= r){
+        ans[k] = arr[j];
+        k++;
+        j++;
+    }
+    for(int i = 0; i < k; i++){
+        arr[l + i] = ans[i];
+    }
+}
+
+
+
+
+void sort1(int arr[], int l, int r){
+    if (l < r){
+        if (r - l == 1){
+            if(arr[l] > arr[r]){
+                swap(arr[l], arr[r]);
+            }
+        }
+        else {
+            sort1(arr, l, (r + l) / 2);
+            sort1(arr, (r + l) / 2 + 1, r);
+            sort_end(arr, l, r);
+        }
+    }
+}
+
+int main() {
+    int n;
+    cin >> n;
+    int arr[100006];
+    for(int i = 0; i < n; i++){
+        cin >> arr[i];
+    }
+
+    sort1(arr, 0, n - 1);
+    
+    for(int i = 0; i < n; i++){
+        cout << arr[i] << ' ';
+    }
+
+    return 0;
+}
