@@ -1,0 +1,18 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main() {
+    long long n;
+    cin >> n;
+    vector <long long> ans;
+    for(long long s = n; s > 0; s = (s - 1)&n){
+        ans.push_back(s);
+    }
+    cout << 0 << "\n";
+    for(long long i = ans.size() - 1; i > -1; i--){
+        cout << ans[i] << "\n";
+    }
+    return 0;
+}
