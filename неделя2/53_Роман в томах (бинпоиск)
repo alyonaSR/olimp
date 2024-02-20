@@ -1,27 +1,27 @@
 #include <iostream>
 #include <vector>
-
+ 
 using namespace std;
-
-int bin(vector <int> &a, int n, int k, int max) {
-    int l = 0, r = max;
+ 
+int bin(vector <int> &a, int n, int k, int max, int min) {
+    int l = min, r = max;
     while(r > l + 1){
         int mid = (l + r) / 2;
         int fir = a[0], book = 0;
         bool flag = true;
         for(int i = 1; i < n; i++){
-            
+             
             if (a[i] > mid) {
                 flag = false;
                 break;
             }
-            
+             
             if (fir + a[i] >= mid){
                 book++;
                 if (fir + a[i] == mid) fir = 0;
                 else fir = a[i];
             }
-            
+             
             else {
                 fir += a[i];
             }
@@ -36,22 +36,23 @@ int bin(vector <int> &a, int n, int k, int max) {
     }
     return r;
 }
-
+ 
 int main() {
     ios::sync_with_stdio(0);
     cin.tie(0);
-    
-    int n, max1 = 0;
+     
+    int n, max1 = 0, mini = 100000000;
     cin >> n;
     vector <int> a;
     for(int i = 0; i < n; i++){
         int x;
         cin >> x;
         max1 += x;
+        mini = min(mini, x);
         a.push_back(x);
     }
     int k;
     cin >> k;
-    cout << bin(a, n, k, max1);
+    cout << bin(a, n, k, max1, mini);
     return 0;
 }
