@@ -3,35 +3,40 @@
 
 using namespace std;
 
-int bin(vector <int> a, int n, int s){
-    int ans = -1;
-    int l = 0, r = n;
-    for(int i = 0; i < n; i++){
-        l = i;
-        r = n + 1;
-        while(r > l + 1){
-            int mid = (l + r) / 2;
-            int res = -1;
-            if (i == 0) res = a[mid];
-            else res = a[mid] - a[i - 1];
-            if (res <= s){
-                l = mid;
-                if (res == s){
-                    if (ans == -1) ans = i + (n - mid - 1);
-                    else ans = min(ans, i + (n - mid - 1));
-                }
-            }
-            else {
-                r = mid;
-            }
-            
-        }
-    }
-    if (ans == -1) return -1;
-    return l;
+using ll = long long;
+
+
+ll sum(int l, int r, vector<ll> &a){
+    if (l == 0) return a[r];
+    return a[r] - a[l - 1];
 }
 
 
+
+int bin(vector <ll> &a, int n, int s) {
+    int ans = INT_MAX;
+    for(int i = 0; i < n; i++){
+        int l = i, r = n - 1, pos = -1;
+        ll res = 0;
+        while(l <= r){
+            int mid = (l + r) / 2;
+            
+            res = sum(i, mid, a);
+            
+            if (res <= s){
+                pos = mid;
+                l = mid + 1;
+            }
+            else{
+                r = mid - 1;
+            }
+        }
+        if (pos == -1 || sum(i, pos, a) != s) continue;
+        ans = min(ans, i + (n - pos - 1));
+    }
+    if (ans == INT_MAX) return -1;
+    return ans;
+}
 
 int main() {
     ios::sync_with_stdio(0);
@@ -39,25 +44,20 @@ int main() {
     
     int t;
     cin >> t;
-    for(int q = 0; q < t; q++){
+    for(int i = 0; i < t; i++){
         int n, s;
         cin >> n >> s;
-        vector <int> a;
-        for(int i = 0; i < n; i++){
-            int x;
+        vector <ll> a, pref;
+        for(int j = 0; j < n; j++){
+            ll x;
             cin >> x;
             a.push_back(x);
         }
-        vector <int> pref;
         pref.push_back(a[0]);
-        for(int i = 1; i < n; i++){
-            pref.push_back(pref[i - 1] + a[i]);
+        for(int j = 1; j < n; j++){
+            pref.push_back(pref[j - 1] + a[j]);
         }
         cout << bin(pref, n, s) << '\n';
     }
-    
-    
-    
-    
     return 0;
 }
