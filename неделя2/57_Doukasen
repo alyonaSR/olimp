@@ -1,0 +1,33 @@
+#include <iostream>
+#include <vector>
+#include <iomanip>
+
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    
+    int n;
+    double t = 0.0;
+    cin >> n;
+    vector <pair<int, int>> a;
+    for(int i = 0; i < n; i++){
+        double c, b;
+        cin >> c >> b;
+        t += c / b;
+        a.push_back(make_pair(c, b));
+    }
+    t /= 2;
+    double t0 = 0, len = 0;
+    for(int i = 0; i < n; i++){
+        if (t0 + (double)a[i].first / a[i].second >= t){
+            double t3 = t - t0;
+            cout << fixed << setprecision(5) << len + t3 * a[i].second << endl;
+            break;
+        }
+        t0 += (double)a[i].first / a[i].second;
+        len += a[i].first;
+    }
+    return 0;
+}
