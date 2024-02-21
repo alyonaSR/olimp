@@ -41,7 +41,7 @@ int main() {
     ios::sync_with_stdio(0);
     cin.tie(0);
      
-    int n, max1 = 0, mini = 100000000;
+    int n, max1 = 0, mini = INT_MAX;
     cin >> n;
     vector <int> a;
     for(int i = 0; i < n; i++){
