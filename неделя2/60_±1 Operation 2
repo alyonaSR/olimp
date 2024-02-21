@@ -8,13 +8,14 @@ using namespace std;
 using ll = long long;
 
 int bin(vector<ll>& a, int n, ll x) {
-    int l = 0 - 1, r = n;
+    int l = 0, r = n;
     while (r > l + 1) {
         int mid = (l + r) / 2;
         if (a[mid] > x) {
             r = mid;
         } else l = mid;
     }
+    if (a[l] > x) return -1;
     return l;
 }
 
@@ -22,7 +23,7 @@ int main() {
     ios::sync_with_stdio(0);
     cin.tie(0);
 
-    ll n, q;
+    int n, q;
     cin >> n >> q;
     vector<ll> a;
     vector<ll> pref;
