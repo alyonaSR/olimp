@@ -4,7 +4,7 @@
 using namespace std;
  
 int bin(vector <int> &a, int n, int k, int max, int min) {
-    int l = min, r = max;
+    int l = min - 1, r = max + 1;
     while(r > l + 1){
         int mid = (l + r) / 2;
         int fir = a[0], book = 0;
