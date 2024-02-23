@@ -1,0 +1,50 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void dfs(int i, vector<vector<int>>& g, vector<int>& used, vector<int>& comp){
+    used[i] = 1;
+    comp.push_back(i);
+    for(auto c: g[i]){
+        if(!used[c]){
+            dfs(c, g, used, comp);
+        }
+    }
+}
+
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie();
+    
+    int n, m;
+    cin >> n >> m;
+    
+    vector<vector<int>> g(n);
+    vector<int> sot(n);
+    for(int i = 0; i < m; i++){
+        int a, b;
+        cin >> a >> b;
+        g[a - 1].push_back(b - 1);
+        g[b - 1].push_back(a - 1);
+        sot[a - 1]++;
+        sot[b - 1]++;
+    }
+    vector<int> used(n, 0);
+    vector<int> comp;
+    bool ans = true;
+    for(int i = 0; i < n; i++){
+        if(!used[i]){
+            comp.clear();
+            bool ok = true;
+            dfs(i, g, used, comp);
+            for(auto c: comp){
+                if(sot[c] != comp.size() - 1) ok = false;
+            }
+            if (!ok) ans = false;
+        }
+    }
+    if (ans) cout << "YES";
+    else cout << "NO"; 
+    return 0;
+}
