@@ -1,0 +1,39 @@
+#include <iostream>
+#include <cmath>
+#include <vector>
+#include <limits>
+
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie();
+    
+    int n;
+    cin >> n;
+    double ans = 0;
+    vector<double> we;
+    for(int i = 0; i < n; i++){
+        int a, b, p, q, r;
+        cin >> a >> b >> p >> q >> r;
+        double x_0 = -q / (2 * p);
+        double ans_l = p * a * a + q * a + r, ans_r = p * b * b + q * b + r, ans_x = p * x_0 * x_0 + q * x_0 + r;
+        if (a <= x_0 && x_0 <= b){
+            ans += min(min(ans_l, ans_r), min(ans_l, ans_x));
+            if (min(min(ans_l, ans_r), min(ans_l, ans_x)) == ans_l) we.push_back(a);
+            else if ( min(min(ans_l, ans_r), min(ans_l, ans_x)) == ans_r) we.push_back(b);
+            else we.push_back(x_0);
+        }
+        else {
+            ans += min(ans_l, ans_r);
+            if (min(ans_l, ans_r) == ans_l) we.push_back(a);
+            else we.push_back(b);
+        }
+    }
+    cout << ans << "\n";
+    for(int i = 0; i < we.size(); i++){
+        cout << we[i] << " ";
+    }
+    return 0;
+}
+
