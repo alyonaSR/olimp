@@ -1,0 +1,52 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+bool dfs(int i, vector<vector<int>>& q, vector<int>& used, vector<int>& comp) {
+    used[i] = 1;
+    for (auto c : q[i]) {
+        if (!used[c]) {
+            comp[c] = 1 - comp[i];
+            if (!dfs(c, q, used, comp)) {
+                return false;
+            }
+        } else if (comp[c] == comp[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie();
+
+    int n, m;
+    cin >> n >> m;
+    vector<vector<int>> q(n);
+    for (int i = 0; i < m; i++) {
+        int a, b;
+        cin >> a >> b;
+        q[a - 1].push_back(b - 1);
+        q[b - 1].push_back(a - 1);
+    }
+
+    vector<int> used(n, 0);
+    vector<int> comp(n, -1);
+    bool res = true;
+    for (int i = 0; i < n; i++) {
+        if (!used[i]) {
+            res = dfs(i, q, used, comp);
+            if (!res) {
+                break;
+            }
+        }
+    }
+    if (res) {
+        cout << "YES\n";
+    } else {
+        cout << "NO\n";
+    }
+    return 0;
+}
