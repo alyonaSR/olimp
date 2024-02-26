@@ -1,0 +1,54 @@
+#include <iostream>
+#include <vector>
+#include <cmath>
+
+using namespace std;
+ 
+const long long z = 1000000007;
+
+long long powMod(long long base, long long step, long long mod) {
+    long long res = base;
+    while (step > 1) {
+        res = (res * base) % mod;
+        step--;
+    }
+    return res;
+}
+
+void dfs(int i, vector<vector<int>>& red, vector<int>& used, long long& ver){
+    used[i] = 1;
+    for(auto c: red[i]){
+        if(!used[c]){
+            ver++;
+            dfs(c, red, used, ver);
+        }
+    }
+}
+
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+     
+    int n, k;
+    cin >> n >> k;
+    long long ans = powMod(n, k, z);
+    vector<vector<int>> red(n);
+    for(int i = 0; i < n - 1; i++){
+        int a, b, c;
+        cin >> a >> b >> c;
+        if (c == 0){
+            red[a - 1].push_back(b - 1);
+            red[b - 1].push_back(a - 1);
+        }
+    }
+    vector<int> used(n, 0);
+    for(int i = 0; i < n; i++){
+        if(!used[i]){
+            long long ver = 1;
+            dfs(i, red, used, ver);
+            ans = (ans - powMod(ver, k, z) + z) % z;
+        }
+    }
+    cout << ans << endl;
+    return 0;
+}
