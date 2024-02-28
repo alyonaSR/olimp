@@ -1,0 +1,54 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cmath>
+ 
+using namespace std;
+ 
+bool calk(vector<int> &v, int n, vector<vector<int>> &q){
+    for(int i = 0; i < n; i++){
+        for(auto c: q[i]){
+            if (find(v.begin(), v.end(), i) == v.end() && find(v.begin(), v.end(), c) == v.end()) return false;
+        }
+    }
+    return true;
+}
+ 
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+   
+    int n, m;
+    cin >> n >> m;
+    vector<vector<int>> q(n);
+    for(int i = 0; i < m; i++){
+        int a, b;
+        cin >> a >> b;
+        q[a - 1].push_back(b - 1);
+        q[b - 1].push_back(a - 1);
+    }
+    vector<int> ans;
+    int res = 20, k = 0;
+    for(int mask = 0; mask < (1 << n); ++mask){
+        vector<int> v;
+        for(int i = 0; i < n; i++){
+            if ((mask >> i) & 1){
+                v.push_back(i);
+            }
+        }
+        if (calk(v, n, q)){
+             
+            if (v.size() < res){
+                k = 0;
+                res = v.size();
+                ans = v;
+            }
+            if (v.size() == res) k++;
+        }
+    }
+    cout << res << " " << k << "\n";
+    for(int i = 0; i < ans.size(); i++){
+        cout << ans[i] + 1 << " ";
+    }
+    return 0;
+}
