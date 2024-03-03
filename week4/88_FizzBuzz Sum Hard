@@ -1,0 +1,36 @@
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+int main() {
+    long long N, A, B;
+    cin >> N >> A >> B;
+
+    long long sum = 0;
+
+    sum += (1 + N) * N / 2;
+
+    long long end_A = A * (N / A), end_B = B * (N / B), end_A_B = (A * B) * (N / (A * B));
+    
+    if (end_A > 0){
+      
+        sum -= ((A + end_A) * (N / A)) / 2;
+        
+    }
+    
+    if (end_B > 0 && A != B){
+        if (sum > 0){
+            sum -= ((B + end_B) * (N / B)) / 2;
+        }
+    }
+    
+    if (end_A_B > 0 && A != B){
+        sum += ((A * B + end_A_B) * (N / (A * B))) / 2;
+    }
+    
+    cout << (long long)sum;
+
+    return 0;
+}
+
