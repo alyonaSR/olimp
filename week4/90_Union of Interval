@@ -1,0 +1,38 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int main() {
+    int n;
+    cin >> n;
+    
+    vector<pair<int, int>> intervals(n);
+    
+    for (int i = 0; i < n; i++) {
+        int l, r;
+        cin >> l >> r;
+        intervals[i] = make_pair(l, r);
+    }
+    
+    sort(intervals.begin(), intervals.end());
+    
+    vector<pair<int, int>> mech;
+    mech.push_back(intervals[0]);
+    
+    for (int i = 1; i < n; i++) {
+        if (intervals[i].first <= mech.back().second) {
+            mech.back().second = max(mech.back().second, intervals[i].second);
+        } else {
+            mech.push_back(intervals[i]);
+        }
+    }
+    
+    for (const auto& interval : mech) {
+        cout << interval.first << " " << interval.second << endl;
+    }
+    
+    return 0;
+}
+
