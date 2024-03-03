@@ -1,0 +1,51 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+ 
+using ll = long long;
+ 
+int dfs(int st, vector<vector<int>> &g, vector<int> &used, int &res){
+    used[st] = 1;
+    int size = 1;
+    for(auto c: g[st]){
+        if (!used[c]){
+            size += dfs(c, g, used, res);
+        }
+    }
+    if (size % 2 == 0 && st != 1){
+        res++;
+    }
+    return size;
+}
+
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    
+    int n;
+    cin >> n;
+    
+    vector<vector<int>> g(n);
+    
+    for(int i = 0; i < n - 1; i++){
+        int a, b;
+        cin >> a >> b;
+        g[a - 1].push_back(b - 1);
+        g[b - 1].push_back(a - 1);
+    }
+    
+    vector<int> used(n, 0);
+    
+    int ans = 0;
+    
+    
+    
+    if (n % 2 != 0) cout << "-1" << "\n";
+    else {
+        dfs(1, g, used, ans);
+        cout << ans << "\n";
+    }
+    
+    return 0;
+}
