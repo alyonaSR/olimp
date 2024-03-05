@@ -4,30 +4,30 @@
 #include <set>
 
 using namespace std;
+using ll = long long;
+set<ll> cord;
 
-set<int> cord;
+ll n, w;
 
-int n, w;
+vector<vector<ll>> a;
 
-vector<vector<int>> a;
-
-void dfs(int r, int c, int &ans) {
+void dfs(ll r, ll c, ll &ans) {
     cord.insert(a[0][0]);
     
     if (r == n - 1 && c == w - 1) {
-        if (cord.size() == n + w - 1) {
-            ans++;
-        }
+        
+        ans++;
+        
         return;
     }
 
-    if (r < n - 1) {
+    if (r < n - 1 && cord.count(a[r + 1][c]) == 0) {
         cord.insert(a[r + 1][c]);
         dfs(r + 1, c, ans);
         cord.erase(a[r + 1][c]);
     }
 
-    if (c < w - 1) {
+    if (c < w - 1 && cord.count(a[r][c + 1]) == 0) {
         cord.insert(a[r][c + 1]);
         dfs(r, c + 1, ans);
         cord.erase(a[r][c + 1]);
@@ -41,21 +41,23 @@ int main() {
 
     cin >> n >> w;
     
-    a.resize(n, vector<int>(w));
+    a.resize(n, vector<ll>(w));
+
 
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < w; j++) {
-            int x;
+            ll x;
             cin >> x;
             a[i][j] = x;
         }
     }
-
-    int ans = 0;
+    cord.insert(a[0][0]);
+    ll ans = 0;
     dfs(0, 0, ans);
 
     cout << ans << "\n";
 
     return 0;
 }
+
 
