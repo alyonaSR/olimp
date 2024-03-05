@@ -15,9 +15,7 @@ void dfs(ll r, ll c, ll &ans) {
     cord.insert(a[0][0]);
     
     if (r == n - 1 && c == w - 1) {
-        
         ans++;
-        
         return;
     }
 
@@ -42,8 +40,6 @@ int main() {
     cin >> n >> w;
     
     a.resize(n, vector<ll>(w));
-
-
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < w; j++) {
             ll x;
@@ -59,5 +55,3 @@ int main() {
 
     return 0;
 }
-
-
