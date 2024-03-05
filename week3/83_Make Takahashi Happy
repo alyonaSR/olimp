@@ -1,0 +1,61 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <set>
+
+using namespace std;
+
+set<int> cord;
+
+int n, w;
+
+vector<vector<int>> a;
+
+void dfs(int r, int c, int &ans) {
+    cord.insert(a[0][0]);
+    
+    if (r == n - 1 && c == w - 1) {
+        if (cord.size() == n + w - 1) {
+            ans++;
+        }
+        return;
+    }
+
+    if (r < n - 1) {
+        cord.insert(a[r + 1][c]);
+        dfs(r + 1, c, ans);
+        cord.erase(a[r + 1][c]);
+    }
+
+    if (c < w - 1) {
+        cord.insert(a[r][c + 1]);
+        dfs(r, c + 1, ans);
+        cord.erase(a[r][c + 1]);
+    }
+    
+}
+
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+
+    cin >> n >> w;
+    
+    a.resize(n, vector<int>(w));
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < w; j++) {
+            int x;
+            cin >> x;
+            a[i][j] = x;
+        }
+    }
+
+    int ans = 0;
+    dfs(0, 0, ans);
+
+    cout << ans << "\n";
+
+    return 0;
+}
+
