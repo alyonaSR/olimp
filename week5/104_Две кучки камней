@@ -1,0 +1,53 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <set>
+
+using namespace std;
+
+using ll = long long;
+
+ll ans = 1e9;
+int n;
+vector<int> kx1;
+vector<int> kx2;
+
+vector<int> w;
+
+void f(int cnt){
+    if(cnt == n){
+        int sum1 = 0, sum2 = 0;
+        for(int i = 0; i < kx1.size(); i++){
+            sum1 += kx1[i];
+        }
+        for(int i = 0; i < kx2.size(); i++){
+            sum2 += kx2[i];
+        }
+        if (abs(sum1 - sum2) < ans) ans = abs(sum1 - sum2);
+        return;
+    }
+    
+    kx1.push_back(w[cnt]);
+    f(cnt + 1);
+    kx1.pop_back();
+
+    kx2.push_back(w[cnt]);
+    f(cnt + 1);
+    kx2.pop_back();
+}
+
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+
+    cin >> n;
+    for(int i = 0; i < n; i++){
+        int x;
+        cin >> x;
+        w.push_back(x);
+    }
+    f(0);
+    cout << ans << "\n";
+    return 0;
+}
+
