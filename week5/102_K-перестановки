@@ -1,0 +1,50 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <set>
+
+using namespace std;
+
+using ll = long long;
+
+ll ans = 0;
+int n, k;
+int p[9];
+
+bool check(int cnt, int i){
+    for(int j = 0; j < cnt; j++){
+        if(p[j] == i) return false;
+    }
+    return true;
+}
+
+void f(int cnt){
+    if(cnt == n){ 
+            ans++;
+        return;
+    }
+    
+    for(int i = 1; i <= n; i++){
+        if (cnt != 0 && abs(p[cnt - 1] - i) <= k && check(cnt, i)){
+            p[cnt] = i;
+            f(cnt + 1);
+            p[cnt] = 0;
+        }
+        else if(cnt == 0){
+            p[cnt] = i;
+            f(cnt + 1);
+            p[cnt] = 0;
+        }
+    }
+}
+
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+ 
+    cin >> n >> k;
+    f(0);
+    cout << ans << "\n";
+    return 0;
+}
+
