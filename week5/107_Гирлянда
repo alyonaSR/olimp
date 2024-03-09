@@ -1,0 +1,57 @@
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include <iomanip>
+
+using namespace std;
+
+using ll = long long;
+
+int n, k, m;
+vector<pair<int, int>> q;
+vector<int> colors;
+vector<int> used(11);
+ll ans = 0;
+
+bool isValid() {
+    for (const auto& c : q) {
+        int lamp1 = c.first;
+        int lamp2 = c.second;
+        if (colors[lamp1] == colors[lamp2]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void f(int cnt){
+    if (colors.size() == n) {
+        if (isValid()) {
+            ans++;
+        }
+        return;
+    }
+    for (int i = 1; i <= k; i++) {
+        if(!used[i]){
+            colors.push_back(i);
+            used[i] = 1;
+            f(cnt + 1);
+            colors.pop_back();
+            used[i] = 0;
+        }
+    }
+}
+
+int main() {
+    cin >> n >> k >> m;
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        q.push_back({u, v});
+    }
+    f(0);
+    if (m == 0) cout << fixed << setprecision(0) << pow(n, k) << "\n";
+    else cout << ans << "\n";
+    return 0;
+}
+
