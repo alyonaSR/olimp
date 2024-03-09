@@ -1,0 +1,64 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cstring>
+ 
+using namespace std;
+ 
+using ll = long long;
+ll n, w;
+vector<pair<ll, ll>> q;
+ 
+ll p[22];
+ll used[22];
+vector<ll> e;
+ll ans_k = 21, ans_sum = 0;
+ 
+ 
+void f(ll cnt , ll k, ll sum){
+    if (cnt <= w){
+        if ((sum > ans_sum && k != 0) || (sum == ans_sum && k < ans_k)){
+            ans_sum = sum;
+            ans_k = k;
+            e.clear();
+            for(int i = 0; i < 20; i++){
+                if (p[i] != 0) {
+                    e.push_back(i);
+                }
+            }
+        }
+    }
+    if (cnt > w){
+        return;
+    }
+    for(int i = 0; i < n; i++){
+        if (!used[i]){
+            p[i] = q[i].second;
+            used[i] = 1;
+            f(cnt + q[i].first, k + 1, sum + q[i].second);
+            p[i] = 0;
+            used[i] = 0;
+        }
+    }
+}
+ 
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+     
+    cin >> n >> w;
+     
+    for(int i = 0; i < n; i++){
+        int a, b;
+        cin >> a >> b;
+        q.push_back(make_pair(a, b));
+    }
+     
+    memset(used, 0, sizeof(used));
+    f(0, 0, 0);
+    cout << ans_k << " " << ans_sum << endl;
+    for(int i = 0; i < ans_k; i++){
+        cout << e[i] + 1 << " ";
+    }
+    return 0;
+}
