@@ -1,0 +1,48 @@
+#include <iostream>
+#include <vector>
+#include <cmath>
+
+using namespace std;
+
+vector<pair<int, int>> board;
+int n, k, ans = 0;
+
+bool check(pair<int, int> i, pair<int, int> j) {
+    int k = abs(i.first - j.first);
+    int k1 = abs(i.second - j.second);
+    if(k1 % 2 == 0 && k1 / 2 == k && k1 != 0 && k != 0) return true;
+    if(k % 2 == 0 && k / 2 == k1 && k1 != 0 && k != 0) return true;
+    return false;
+}
+
+void f(int cnt, int row, int col) {
+    if (cnt == k) {
+        ans++;
+        return;
+    }
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            bool beats = true;
+            for (auto m : board) {
+                if (!check({i, j}, m)) {
+                    beats = false;
+                    break;
+                }
+            }
+            if (beats) {
+                board.push_back({i, j});
+                f(cnt + 1, i, j);
+                board.pop_back();
+            }
+        }
+    }
+}
+
+int main() {
+    cin >> n >> k;
+    f(0, 0, 0);
+    cout << ans << "\n";
+
+    return 0;
+}
