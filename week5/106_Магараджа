@@ -8,21 +8,24 @@ vector<pair<int, int>> board;
 int n, k, ans = 0;
 
 bool check(pair<int, int> i, pair<int, int> j) {
-    int k = abs(i.first - j.first);
-    int k1 = abs(i.second - j.second);
-    if(k1 % 2 == 0 && k1 / 2 == k && k1 != 0 && k != 0) return true;
-    if(k % 2 == 0 && k / 2 == k1 && k1 != 0 && k != 0) return true;
-    return false;
+    if (i.first == j.first || i.second == j.second || (abs(i.first - j.first) == abs(j.second - i.second))){
+        return false;
+    }
+    else if ((abs(i.first - j.first) == 2 && abs(i.second - j.second) == 1) || (abs(i.first - j.first) == 1 && abs(i.second - j.second) == 2)){
+        return false;
+    }
+    return true;
 }
 
-void f(int cnt, int row, int col) {
+void f(int cnt, int &row, int &col) {
     if (cnt == k) {
         ans++;
+        
         return;
     }
 
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
+    for (int i = row; i < n; i++) {
+        for (int j = (i == row) ? col : 0; j < n; j++) {
             bool beats = true;
             for (auto m : board) {
                 if (!check({i, j}, m)) {
@@ -41,7 +44,8 @@ void f(int cnt, int row, int col) {
 
 int main() {
     cin >> n >> k;
-    f(0, 0, 0);
+    int row = 0, col = 0;
+    f(0, row, col);
     cout << ans << "\n";
 
     return 0;
