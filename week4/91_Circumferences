@@ -1,0 +1,49 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+using ll = long long;
+
+ll n, sx, sy, tx, ty;
+ll x[3005], y[3005], r[3005];
+int used[3005];
+int s, t;
+
+vector<vector<int>> g(3005);
+bool dfs(int v){
+    used[v] = 1;
+    if(v == t) return true;
+    for(auto c : g[v]){
+        if(!used[c]){
+            if(dfs(c)) return true;
+        }
+    }
+    return false;
+}
+
+int main(){
+    
+    cin >> n >> sx >> sy >> tx >> ty;
+    for(int i = 1; i <= n; i++){
+        cin >> x[i] >> y[i] >> r[i];
+    }
+    
+    for(int i = 1; i <= n; i++){
+        for(int j = i + 1; j <= n; j++){
+            ll d = (x[i] - x[j]) * (x[i] - x[j]) + (y[i] - y[j]) * (y[i] - y[j]);
+            if(d > (r[i] + r[j]) * (r[i] + r[j]) || d < (r[i] - r[j]) * (r[i] - r[j])) continue;
+            g[i].push_back(j);
+            g[j].push_back(i);
+        }
+    }
+    
+    for(int i = 1; i <= n; i++){
+        if((x[i] - sx) * (x[i] - sx) + (y[i] - sy) * (y[i] - sy) == r[i] * r[i]) s = i;
+        if((x[i] - tx) * (x[i] - tx) + (y[i] - ty) * (y[i] - ty) == r[i] * r[i]) t = i;
+    }
+    
+    if (dfs(s)) cout << "Yes" << "\n";
+    else cout << "No" << "\n";
+    
+    return 0;
+}
