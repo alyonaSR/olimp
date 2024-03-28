@@ -1,0 +1,36 @@
+#include <iostream>
+#include <vector>
+#include <set>
+#include <cmath>
+
+using namespace std;
+using ll = long long;
+
+int main(){
+    int t;
+    cin >> t;
+    for(int q = 0; q < t; q++){
+        int n;
+        cin >> n;
+        vector<ll> a(n);
+        ll maxi = -1e10;
+        for(int i = 0; i < n; i++){
+            cin >> a[i];
+            maxi = max(maxi, a[i]);
+        }
+        ll ans = 0, ans1 = 0;
+        for(int i = 0; i < n; i++){
+            if (i % 2 == 0){
+                if(a[i] > 0) ans += a[i];
+            }
+            else{
+                if (a[i] > 0) ans1 += a[i];
+            }
+        }
+        ll res = max(ans, ans1);
+        if (res == 0) res = maxi;
+        cout << res << "\n";
+    }
+    return 0;
+}
+
