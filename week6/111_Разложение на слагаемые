@@ -1,0 +1,33 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+int n;
+vector<int> ans;
+
+void f (int cnt){
+    if (cnt == n){
+        
+        for(int i = 0; i < ans.size() - 1; i++){
+            cout << ans[i] << "+";
+        }
+        cout << ans[ans.size() - 1];
+        cout << endl;
+        return;
+    }
+  
+    for(int i = 1; i < n; i++){
+        if ((ans.size() == 0) || (cnt + i <= n && ans[ans.size() - 1] >= i)){
+            ans.push_back(i);
+            f (cnt + i);
+            ans.pop_back();
+        }
+    }
+}
+
+int main() {
+    cin >> n;
+    f(0);
+    return 0;
+}
+
