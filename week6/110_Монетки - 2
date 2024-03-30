@@ -1,0 +1,47 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+using ll = long long;
+int n, m;
+vector<int> mon;
+ll ans = -1;
+
+void f (ll pos, ll sum, ll k){
+    if (pos == m){
+        if (sum == n){
+            if (ans == -1 || ans > k){
+                ans = k;
+            }
+            return;
+        }
+        return;
+    }
+    f(pos + 1, sum, k);
+    f(pos + 1, sum + mon[pos], k + 1);
+    f(pos + 1, sum + mon[pos] * 2, k + 2);
+}
+
+int main() {
+    cin >> n >> m;
+    int alli = 0;
+    for(int i = 0; i < m; i++){
+        int x;
+        cin >> x;
+        alli += x * 2;
+        mon.push_back(x);
+    }
+    f(0, 0, 0);
+    if (alli < n){
+        cout << "-1" << "\n";
+        return 0;
+    }
+    else if (ans == -1){
+        cout << "0" << "\n";
+    }
+    else {
+        cout << ans << "\n";
+    }
+    return 0;
+}
+
