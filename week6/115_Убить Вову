@@ -1,0 +1,93 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <set>
+#include <map>
+
+using namespace std;
+using ll = long long;
+int n, m, k = -1;
+vector<string> a(21);
+vector<ll> b(21);
+vector<int> ans1, ans2, e;
+
+ll bin(string binary) {
+    ll decimal = 0;
+    ll base = 1;
+
+   
+    for (int i = binary.size() - 1; i >= 0; i--) {
+        if (binary[i] == '1') {
+            decimal += base;
+        }
+        base *= 2;
+    }
+
+    return decimal;
+}
+
+bool check(vector<int> &ans){
+    if (ans.empty()) return false;
+
+    ll pip = b[ans[0]];
+    for(int i = 1; i < ans.size(); i++){
+        pip &= b[ans[i]];
+    }
+
+    return pip == 0;
+}
+
+
+void f(int cnt){
+    if (cnt == m){
+        if (check(ans1)){
+            if (k == -1 || ans1.size() < k) {
+                k = ans1.size();
+                e = ans1;
+            }
+        }
+        if (check(ans2)){
+            if (k == -1 || ans2.size() < k) {
+                k = ans2.size();
+                e = ans2;
+            }
+        }
+        return;
+    }
+    
+    ans1.push_back(cnt);
+    f(cnt + 1);
+    ans1.pop_back();
+    
+    ans2.push_back(cnt);
+    f(cnt + 1);
+    ans2.pop_back();
+    
+}
+
+int main() {
+    cin >> n >> m;
+    for(int i = 0; i < n; i++){
+        for(int j = 0; j < m; j++){
+            char c;
+            cin >> c;
+            a[j].push_back(c);
+        }
+    }
+    
+    for(int i = 0; i < m; i++){
+        b[i] = bin(a[i]);
+    }
+    
+    
+    f(0);
+    if (k == -1) {
+        cout << "Impossible" << "\n";
+        return 0;
+    }
+    cout << k << endl;
+    for(int i = 0; i < k; i++){
+        cout << e[i] + 1 << " ";
+    }
+    return 0;
+}
