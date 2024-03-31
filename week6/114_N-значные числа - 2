@@ -1,0 +1,79 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <set>
+#include <map>
+
+using namespace std;
+
+
+int n, fl = 0;
+string res = "-1";
+map<int, int> wi;
+vector<string> ans;
+
+void f(int cnt, int sum, int pro, string ansi) {
+    if (fl > 3000) return;
+    if (cnt == n){
+        fl++;
+        if (sum == pro){
+            if (wi[pro] == 0){
+                wi[pro] = 1;
+                ans.push_back(ansi);
+            }
+            if (res == "-1"){
+                res = ansi;
+            }
+                            
+        }
+        return;
+    }
+    for (int i = 1; i <= 9; i++){
+        char c = char(i + '0');
+        f(cnt + 1, sum + i, pro * i, ansi + c);
+    }
+}
+
+set<string> a;
+vector<int> le;
+string str;
+
+
+void f2(int cnt, int used[]) {
+    if (cnt == n){
+        le.push_back(1);
+        a.insert(str);
+        return;
+    }
+    
+    for (int i = 1; i <= 9; i++){
+        if (used[i] == 0) continue;
+        
+        char c = char(i + '0');
+        used[i]--;
+        str.push_back(c);
+        f2(cnt + 1, used);
+        str.pop_back();
+        used[i]++;
+    }
+}
+
+int main() {
+    cin >> n;
+    if (n == 1){
+        cout << 10 << " " << 0;
+        return 0;
+    }
+    f(0, 0, 1, "");
+    for(int j = 0; j < ans.size(); j++){
+        int used[10] = {0};
+        for (int i = 0; i < n; i++){
+            used[ans[j][i] - '0']++;
+        }
+        f2(0, used);
+    }
+    
+    cout << a.size() << " " << res << endl;
+    return 0;
+}
+
