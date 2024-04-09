@@ -1,0 +1,21 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <map>
+
+using namespace std;
+
+long long d[2000][2];
+
+int main()
+{
+    int n, k;
+    cin >> n >> k;
+    d[1][1] = k - 1;
+    for(int i = 2; i <= n; i++){
+        d[i][1] = (d[i - 1][0] * (k - 1)) + (d[i - 1][1] * (k - 1));
+        d[i][0] = d[i - 1][1];
+    }
+    cout << d[n][1] + d[n][0];
+    return 0;
+}
