@@ -1,0 +1,53 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+using ll = long long;
+
+int main() {
+    int L1, L2, L3, C1, C2, C3;
+    cin >> L1 >> L2 >> L3 >> C1 >> C2 >> C3;
+
+    int n;
+    cin >> n;
+
+    int start, end;
+    cin >> start >> end;
+    int c = start;
+    start = min(start, end);
+    end = max(c, end);
+
+    vector<ll> stations(N + 1);
+    vector<ll> dp(N + 1, INT_MAX);
+
+    for (int i = 2; i <= N; ++i) {
+        cin >> stations[i];
+    }
+
+    dp[start] = 0;
+    for (int i = start + 1; i <= end; ++i) {
+        for (int j = start; j < i; ++j) {
+            ll distance = stations[i] - stations[j];
+            int pr;
+            if (distance <= L1) {
+                pr = C1;
+            } else if (distance <= L2) {
+                pr = C2;
+            } else if (distance <= L3){
+                pr = C3;
+            }
+            else{
+                continue;
+            }
+            if (j == start){
+                dp[i] = pr;
+            }
+            else dp[i] = min(dp[i], dp[j] + pr);
+        }
+    }
+
+    cout << dp[end] << endl;
+
+    return 0;
+}
